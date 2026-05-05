@@ -1,4 +1,3 @@
-// Pure JavaScript Hash Implementations (No external libraries)
 
 export function md5(message) {
     let origLen = message.length * 8;

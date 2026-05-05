@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import './App.css'
 import { md5, sha1, sha256, fnv1, fnv1a, murmur3_32 } from './hashUtils'
 import VoronoiCanvas from './VoronoiCanvas'
@@ -14,11 +14,12 @@ function App() {
     <div className="container">
       <h1>Hash Algorithm Visualizer</h1>
       <div className="input-group">
-        <label>Input Data:</label>
+        <label>Input Data</label>
         <input 
           type="text" 
           value={input} 
           onChange={(e) => setInput(e.target.value)}
+          placeholder="Type something to hash..."
         />
       </div>
       <div className="panels">
@@ -86,17 +87,21 @@ function HashPanel({ input, algo, onAlgoChange }) {
 
   return (
     <div className="panel">
-      <select value={algo} onChange={e => onAlgoChange(e.target.value)}>
-        {ALGORITHMS.map(a => <option key={a} value={a}>{a}</option>)}
-      </select>
+      <div className="select-wrapper">
+        <select value={algo} onChange={e => onAlgoChange(e.target.value)}>
+          {ALGORITHMS.map(a => <option key={a} value={a}>{a}</option>)}
+        </select>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="select-arrow"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+      
       <div className="stats">
-        <div className="stat-row"><span>Output Size:</span> <strong>{stats.bits} bits</strong></div>
-        <div className="stat-row"><span>Execution Time:</span> <strong>{stats.timeMs.toFixed(4)} ms</strong></div>
-        <div className="stat-row"><span>Hash Hex:</span> <strong style={{wordBreak: 'break-all'}}>{stats.hex}</strong></div>
-        <div className="stat-row"><span>Ones Count:</span> <strong>{stats.ones} bits</strong></div>
-        <div className="stat-row"><span>Zeros Count:</span> <strong>{stats.zeros} bits</strong></div>
-        <div className="stat-row"><span>Avalanche Flips:</span> <strong>{stats.avalancheFlips} bits</strong></div>
-        <div className="stat-row"><span>Avalanche Ratio:</span> <strong>{stats.avalancheRatio.toFixed(2)}%</strong></div>
+        <div className="stat-row"><span>Output Size</span> <strong>{stats.bits} bits</strong></div>
+        <div className="stat-row"><span>Execution Time</span> <strong>{stats.timeMs.toFixed(4)} ms</strong></div>
+        <div className="stat-row"><span>Hash Hex</span> <strong style={{wordBreak: 'break-all'}}>{stats.hex}</strong></div>
+        <div className="stat-row"><span>Ones Count</span> <strong>{stats.ones} bits</strong></div>
+        <div className="stat-row"><span>Zeros Count</span> <strong>{stats.zeros} bits</strong></div>
+        <div className="stat-row"><span>Avalanche Flips</span> <strong>{stats.avalancheFlips} bits</strong></div>
+        <div className="stat-row"><span>Avalanche Ratio</span> <strong>{stats.avalancheRatio.toFixed(2)}%</strong></div>
       </div>
       <div className="voronoi-container">
         <VoronoiCanvas hashArray={stats.hash} />
